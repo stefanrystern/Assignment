@@ -8,9 +8,6 @@ import com.google.java.contract.PreconditionError;
 import com.google.java.contract.PostconditionError;
 import com.google.java.contract.InvariantError;
 
-//@Ignore
-//@Test(expected = PreconditionError.class)
-//@Test(expected = PostconditionError.class)
 
 public class ProgramTest {
    

@@ -35,8 +35,6 @@ public class PasswordCriteria {
 	 */
 	public boolean isValid(String pw) {
 
-		boolean res = true;
-		
 		if(pw.length() < minLength || pw.length() > maxLength) {
 			return false;
 		}
@@ -52,8 +50,7 @@ public class PasswordCriteria {
 			it.remove();
 			
 			if(!isDigit(ch) && !isLetterLower(ch) && !isLetterUpper(ch)) {
-				res = false;
-				break;
+				return false;
 			}
 			
 			if(((isDigit(ch) && !numbers())
@@ -61,12 +58,11 @@ public class PasswordCriteria {
 					|| (isLetterUpper(ch) && !mixedCase()))
 					|| (ar.contains(ch) && allDifferent())) {
 				
-				res = false;
-				break;
+				return false;
 			}
         }
 		
-		return res;
+		return true;
 		
 	}
 
