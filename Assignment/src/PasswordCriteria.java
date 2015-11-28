@@ -8,8 +8,9 @@ import com.google.java.contract.Invariant;
 
 @Invariant({
 	"minLength >= MIN",
-	"minLength <= maxLength"
-	//...
+	"minLength <= maxLength",
+	"!hasMixedCase || hasLetters",
+	"hasNumbers || hasLetters"
 })
 
 /*
