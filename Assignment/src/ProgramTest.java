@@ -24,6 +24,16 @@ public class ProgramTest {
         cr.setMaxLength(2);
     }
 
+	@Test
+	public void testSetMinLengthAllowed() throws Exception {
+		cr.setMinLength(5);
+	}
+
+	@Test
+	public void testSetMaxLengthAllowed() throws Exception {
+		cr.setMaxLength(10);
+	}
+
 	@Test(expected = InvariantError.class)
 	public void hasMixedCase_hasNoLetters() {
 		cr.setHasLetters(false);
