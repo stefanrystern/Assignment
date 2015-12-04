@@ -25,16 +25,19 @@ public class ProgramTest {
 		cr.setHasMixedCase(true);
 	}
 
+	@Test
 	public void hasMixedCase_hasLetters() {
 		PasswordCriteria cr = new PasswordCriteria();
 		cr.setHasMixedCase(true);
 	}
 
+	@Test
 	public void hasNumbers_hasLetters() {
 		PasswordCriteria cr = new PasswordCriteria();
 		cr.setHasNumbers(true);
 	}
 
+	@Test
 	public void hasNumbers_hasNoLetters() {
 		PasswordCriteria cr = new PasswordCriteria();
 		cr.setHasNumbers(true);

@@ -92,10 +92,18 @@ public class PasswordCriteria {
 	public Integer getMinLength() {
 		return minLength;
 	}
-	
+
+
 	/*
 	 * Setter for max length
 	 */
+	@Requires({
+			"max >= MIN",
+			"max >= minLength"
+	})
+	@Ensures({
+			"maxLength == old(max)"
+	})
 	public void setMaxLength(int max) {
 		maxLength = max;
 	}
