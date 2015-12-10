@@ -234,30 +234,18 @@ public class PasswordCriteria {
  */
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-	@Ensures({
-			"result == hasLetters"
-	})
 	private boolean letters() {
 		return hasLetters;
 	}
 
-	@Ensures({
-			"result == hasMixedCase"
-	})
 	private boolean mixedCase() {
 		return hasMixedCase;
 	}
 
-	@Ensures({
-			"result == hasNumbers"
-	})
 	private boolean numbers() {
 		return hasNumbers;
 	}
 
-	@Ensures({
-			"result == hasAllDifferent"
-	})
 	private boolean allDifferent() {
 		return hasAllDifferent;
 	}
