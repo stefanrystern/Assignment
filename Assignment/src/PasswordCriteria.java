@@ -21,7 +21,7 @@ import com.google.java.contract.Invariant;
  * Special characters are not allowed.
  */
 public class PasswordCriteria {
-	
+
 	/*
 	 * The constructor of the class initializes the value of the attributes.
 	 */
@@ -29,63 +29,69 @@ public class PasswordCriteria {
 		minLength = maxLength = MIN;
 		hasLetters = true;
 	}
-	
+
 	/*
 	 * The method returns true if the password is compliant with the citeria,
 	 * otherwise false.
 	 */
 	public boolean isValid(String pw) {
 
+		boolean res = true;
+
 		if(pw.length() < minLength || pw.length() > maxLength) {
 			return false;
 		}
-		
+
 		ArrayList<Character> ar = new ArrayList<Character>();
 		for(char c : pw.toCharArray()) {
 			ar.add(c);
 		}
-		
+
 		Iterator<Character> it = ar.iterator();
 		while (it.hasNext()) {
 			Character ch = it.next();
 			it.remove();
-			
+
 			if(!isDigit(ch) && !isLetterLower(ch) && !isLetterUpper(ch)) {
-				return false;
+				res = false;
+				break;
 			}
-			
+
 			if(((isDigit(ch) && !numbers())
 					|| (isLetterLower(ch) && !letters())
 					|| (isLetterUpper(ch) && !mixedCase()))
 					|| (ar.contains(ch) && allDifferent())) {
-				
-				return false;
+
+				res = false;
+				break;
 			}
-        }
-		
-		return true;
-		
+		}
+
+		return res;
+
 	}
+
 
 	/*
 	 * Setter for min length
 	 */
 	@Requires({
-		"min >= MIN",
-		"min <= maxLength"
+			"min >= MIN",
+			"min <= maxLength"
 	})
 	@Ensures({
-		"minLength == old(min)"
+			"minLength == old(min)"
 	})
 	public void setMinLength(int min) {
 		minLength = min;
 	}
-	
+
+
 	/*
 	 * Getter for min length
 	 */
 	@Ensures({
-		"result == minLength"
+			"result == minLength"
 	})
 	public Integer getMinLength() {
 		return minLength;
@@ -115,11 +121,12 @@ public class PasswordCriteria {
 		return maxLength;
 	}
 
+
 	/*
 	 * Setter for hasLetters attribute
 	 */
 	@Ensures({
-		"letters() == old(val)"
+			"letters() == old(val)"
 	})
 	public void setHasLetters(boolean val) {
 		hasLetters = val;
@@ -129,7 +136,7 @@ public class PasswordCriteria {
 	 * Getter for hasLetters attribute
 	 */
 	@Ensures({
-		"result == letters()"
+			"result == letters()"
 	})
 	public boolean getHasLetters() {
 		return letters();
@@ -179,12 +186,12 @@ public class PasswordCriteria {
 		return allDifferent();
 	}
 
-///////////////////////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////////////////////////
 	/*
 	 * The following 3 private methods are used by the isValid(String pw)
 	 * method to check the validity of the password. These methods need not
 	 * be addressed for the task.
-	 *
+	 * 
 	 */
 	private boolean isLetterLower(char ch) {
 		int ac = (int)ch;
@@ -200,7 +207,7 @@ public class PasswordCriteria {
 		int ac = (int)ch;
 		return (ac >= 48 && ac <= 57);
 	}
-	
+
 ///////////////////////////////////////////////////////////////////////////////////////////////
 /*
  * The following private methods may be used in the contracts for
@@ -209,12 +216,12 @@ public class PasswordCriteria {
  * 
  */
 ///////////////////////////////////////////////////////////////////////////////////////////////
-	
-	
+
+
 	private boolean letters() {
 		return hasLetters;
 	}
-	
+
 	private boolean mixedCase() {
 		return hasMixedCase;
 	}
@@ -222,11 +229,11 @@ public class PasswordCriteria {
 	private boolean numbers() {
 		return hasNumbers;
 	}
-	
+
 	private boolean allDifferent() {
 		return hasAllDifferent;
 	}
-	
+
 	/*
 	 * The method uses alternate means to check the validity
 	 * of the password. This may be used in the contracts for
@@ -234,15 +241,15 @@ public class PasswordCriteria {
 	 * 
 	 */
 	private boolean isPasswordValid(String pw) {
-		
+
 		String range = "{" + minLength + "," + maxLength + "}";
 		String reg = "^[a-zA-Z0-9]" + range + "$";
 		String regl = "^.*[a-z].*$";
 		String regmc = "^.*[A-Z].*$";
 		String regn = "^.*[0-9].*$";
 		String regad = "(.).*?(?=.*?\\1)";
-		
-		
+
+
 		if(!Pattern.matches(reg, pw)) {
 			return false;
 		}
@@ -250,26 +257,26 @@ public class PasswordCriteria {
 		if(letters() != Pattern.matches(regl, pw)) {
 			return false;
 		}
-		
+
 		if(mixedCase() != Pattern.matches(regmc, pw)) {
 			return false;
 		}
-		
+
 		if(numbers() != Pattern.matches(regn, pw)) {
 			return false;
 		}
-		
+
 		if(allDifferent() && Pattern.compile(regad).matcher(pw).find()) {
 			return false;
 		}
-		
+
 		return true;
 	}
 
-	
+
 	private int minLength;
 	private int maxLength;
-	
+
 	private boolean hasLetters;
 	private boolean hasNumbers;
 	private boolean hasMixedCase;
