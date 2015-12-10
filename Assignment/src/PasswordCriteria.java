@@ -67,7 +67,6 @@ public class PasswordCriteria {
 		
 	}
 
-	
 	/*
 	 * Setter for min length
 	 */
@@ -82,7 +81,6 @@ public class PasswordCriteria {
 		minLength = min;
 	}
 	
-
 	/*
 	 * Getter for min length
 	 */
@@ -92,7 +90,6 @@ public class PasswordCriteria {
 	public Integer getMinLength() {
 		return minLength;
 	}
-
 
 	/*
 	 * Setter for max length
@@ -111,10 +108,12 @@ public class PasswordCriteria {
 	/*
 	 * Getter for max length
 	 */
+	@Ensures({
+			"result == maxLength"
+	})
 	public Integer getMaxLength() {
 		return maxLength;
 	}
-	
 
 	/*
 	 * Setter for hasLetters attribute
@@ -125,7 +124,7 @@ public class PasswordCriteria {
 	public void setHasLetters(boolean val) {
 		hasLetters = val;
 	}
-	
+
 	/*
 	 * Getter for hasLetters attribute
 	 */
@@ -142,30 +141,30 @@ public class PasswordCriteria {
 	public void setHasMixedCase(boolean val) {
 		hasMixedCase = val;
 	}
-	
+
 	/*
 	 * Getter for hasMixedCase attribute
 	 */
 	public boolean getHasMixedCase() {
 		return numbers();
 	}
-	
-	
+
+
 	/*
 	 * Setter for hasNumbers attribute
 	 */
 	public void setHasNumbers(boolean val) {
 		hasNumbers = val;
 	}
-	
+
 	/*
 	 * Getter for hasNumbers attribute
 	 */
 	public boolean getHasNumbers() {
 		return mixedCase();
 	}
-	
-	
+
+
 	/*
 	 * Setter for hasAllDifferent attribute
 	 */
@@ -179,24 +178,24 @@ public class PasswordCriteria {
 	public boolean getHasAllDifferent() {
 		return allDifferent();
 	}
-	
+
 ///////////////////////////////////////////////////////////////////////////////////////////////
 	/*
 	 * The following 3 private methods are used by the isValid(String pw)
 	 * method to check the validity of the password. These methods need not
 	 * be addressed for the task.
-	 * 
+	 *
 	 */
 	private boolean isLetterLower(char ch) {
 		int ac = (int)ch;
 		return (ac >= 97 && ac <= 122);
 	}
-	
+
 	private boolean isLetterUpper(char ch) {
 		int ac = (int)ch;
 		return (ac >= 65 && ac <= 90);
 	}
-	
+
 	private boolean isDigit(char ch) {
 		int ac = (int)ch;
 		return (ac >= 48 && ac <= 57);
