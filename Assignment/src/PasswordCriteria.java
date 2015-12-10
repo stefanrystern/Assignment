@@ -150,6 +150,7 @@ public class PasswordCriteria {
 	})
 	public boolean getHasLetters() {
 		return letters();
+		// return false; testGetHasLetters_postconditionError()
 	}
 
 	/*

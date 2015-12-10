@@ -61,9 +61,16 @@ public class ProgramTest {
 		cr.setMinLength(4);
 	}
 
+	@Ignore
 	@Test(expected = PostconditionError.class)
-	public void setHasLetters_postconditionError() {
+	public void testSetHasLetters_postconditionError() {
 		cr.setHasLetters(true);
+	}
+
+	@Ignore
+	@Test(expected = PostconditionError.class)
+	public void testGetHasLetters_postconditionError() {
+		cr.getHasLetters();
 	}
 
     @Test(expected = InvariantError.class)
