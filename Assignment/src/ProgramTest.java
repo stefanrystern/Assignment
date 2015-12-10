@@ -1,9 +1,11 @@
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Ignore;
+import org.junit.Test;
+
 import com.google.java.contract.InvariantError;
 import com.google.java.contract.PostconditionError;
 import com.google.java.contract.PreconditionError;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
 
 
 public class ProgramTest {
@@ -25,6 +27,18 @@ public class ProgramTest {
         cr.setMaxLength(2);
     }
 
+	@Ignore
+	@Test(expected = PostconditionError.class)
+	public void testGetMinLength_postconditionError() {
+		cr.getMinLength();
+	}
+
+	@Ignore
+	@Test(expected = PostconditionError.class)
+	public void testGetMaxLength_postconditionError() {
+		cr.getMaxLength();
+	}
+
     @Test
     public void testGetMaxLength() throws Exception {
         cr.setMaxLength(10);
@@ -40,6 +54,17 @@ public class ProgramTest {
     public void testSetMaxLengthAllowed() throws Exception {
         cr.setMaxLength(10);
     }
+
+	@Ignore
+	@Test(expected = PostconditionError.class)
+	public void testSetMinLength_postconditionError() {
+		cr.setMinLength(4);
+	}
+
+	@Test(expected = PostconditionError.class)
+	public void setHasLetters_postconditionError() {
+		cr.setHasLetters(true);
+	}
 
     @Test(expected = InvariantError.class)
     public void hasMixedCase_hasNoLetters() {
@@ -68,5 +93,10 @@ public class ProgramTest {
         cr.setHasNumbers(false);
         cr.setHasLetters(false);
     }
+
+	@Test(expected = PreconditionError.class)
+	public void isValid() {
+		cr.isValid(null);
+	}
 
 }

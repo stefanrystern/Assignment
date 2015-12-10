@@ -3,8 +3,8 @@ import java.util.Iterator;
 import java.util.regex.Pattern;
 
 import com.google.java.contract.Ensures;
-import com.google.java.contract.Requires;
 import com.google.java.contract.Invariant;
+import com.google.java.contract.Requires;
 
 @Invariant({
 	"minLength >= MIN",
@@ -34,6 +34,12 @@ public class PasswordCriteria {
 	 * The method returns true if the password is compliant with the citeria,
 	 * otherwise false.
 	 */
+	@Requires({
+		"pw != null"
+	})
+	@Ensures({
+		"isValid(old(pw)) == isPasswordValid(old(pw))"
+	})
 	public boolean isValid(String pw) {
 
 		boolean res = true;
@@ -84,6 +90,7 @@ public class PasswordCriteria {
 	})
 	public void setMinLength(int min) {
 		minLength = min;
+		// minLength = 5; testSetMinLength_postconditionError()
 	}
 
 
@@ -95,6 +102,7 @@ public class PasswordCriteria {
 	})
 	public Integer getMinLength() {
 		return minLength;
+		// return 3; testGetMinLength_postconditionError()
 	}
 
 	/*
@@ -119,6 +127,7 @@ public class PasswordCriteria {
 	})
 	public Integer getMaxLength() {
 		return maxLength;
+		// return 3; testGetMaxLength_postconditionError()
 	}
 
 
@@ -130,6 +139,7 @@ public class PasswordCriteria {
     })
 	public void setHasLetters(boolean val) {
 		hasLetters = val;
+		// hasLetters = false; setHasLetters_postconditionError()
 	}
 
 	/*
