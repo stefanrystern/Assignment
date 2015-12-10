@@ -126,8 +126,8 @@ public class PasswordCriteria {
 	 * Setter for hasLetters attribute
 	 */
 	@Ensures({
-			"letters() == old(val)"
-	})
+            "hasLetters == old(val)"
+    })
 	public void setHasLetters(boolean val) {
 		hasLetters = val;
 	}
@@ -145,14 +145,20 @@ public class PasswordCriteria {
 	/*
 	 * Setter for hasMixedCase attribute
 	 */
-	public void setHasMixedCase(boolean val) {
+    @Ensures({
+            "hasMixedCase == old(val)"
+    })
+    public void setHasMixedCase(boolean val) {
 		hasMixedCase = val;
 	}
 
 	/*
 	 * Getter for hasMixedCase attribute
 	 */
-	public boolean getHasMixedCase() {
+    @Ensures({
+            "result == hasMixedCase"
+    })
+    public boolean getHasMixedCase() {
 		return numbers();
 	}
 
@@ -160,29 +166,40 @@ public class PasswordCriteria {
 	/*
 	 * Setter for hasNumbers attribute
 	 */
-	public void setHasNumbers(boolean val) {
+    @Ensures({
+            "hasNumbers == old(val)"
+    })
+    public void setHasNumbers(boolean val) {
 		hasNumbers = val;
 	}
 
 	/*
 	 * Getter for hasNumbers attribute
 	 */
-	public boolean getHasNumbers() {
+    @Ensures({
+            "result == hasNumbers"
+    })
+    public boolean getHasNumbers() {
 		return mixedCase();
 	}
-
 
 	/*
 	 * Setter for hasAllDifferent attribute
 	 */
-	public void setHasAllDifferent(boolean val) {
+    @Ensures({
+            "hasAllDifferent == old(val)"
+    })
+    public void setHasAllDifferent(boolean val) {
 		hasAllDifferent = val;
 	}
 
 	/*
 	 * Getter for hasAllDifferent attribute
 	 */
-	public boolean getHasAllDifferent() {
+    @Ensures({
+            "result == allDifferent()"
+    })
+    public boolean getHasAllDifferent() {
 		return allDifferent();
 	}
 
