@@ -156,7 +156,7 @@ public class PasswordCriteria {
 	 * Getter for hasMixedCase attribute
 	 */
     @Ensures({
-            "result == hasMixedCase"
+            "result == mixedCase()"
     })
     public boolean getHasMixedCase() {
 		return numbers();
@@ -177,7 +177,7 @@ public class PasswordCriteria {
 	 * Getter for hasNumbers attribute
 	 */
     @Ensures({
-            "result == hasNumbers"
+            "result == numbers()"
     })
     public boolean getHasNumbers() {
 		return mixedCase();
