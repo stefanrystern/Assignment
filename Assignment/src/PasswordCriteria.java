@@ -34,7 +34,13 @@ public class PasswordCriteria {
 	 * The method returns true if the password is compliant with the citeria,
 	 * otherwise false.
 	 */
-	public boolean isValid(String pw) {
+    @Requires({
+            "pw != null"
+    })
+    @Ensures({
+            "isPasswordValid(old(pw))"
+    })
+    public boolean isValid(String pw) {
 
 		boolean res = true;
 

@@ -33,12 +33,14 @@ public class ProgramTest {
 
     @Test(expected = PreconditionError.class)
     public void testSetMinLengthAllowed() throws Exception {
+        cr.setMaxLength(4);
         cr.setMinLength(5);
     }
 
-    @Test
+    @Test(expected = PreconditionError.class)
     public void testSetMaxLengthAllowed() throws Exception {
-        cr.setMaxLength(10);
+        cr.setMinLength(5);
+        cr.setMaxLength(4);
     }
 
     @Test(expected = InvariantError.class)
@@ -47,8 +49,42 @@ public class ProgramTest {
         cr.setHasMixedCase(true);
     }
 
+    @Test(expected = PreconditionError.class)
+    public void testIsValidWithNullPassword() {
+        cr.isValid(null);
+    }
+
+    @Test(expected = PostconditionError.class)
+    public void testIsValidWithInvalidMixedCasePassword() {
+        cr.isValid("Aaaa");
+    }
+
+    @Test
+    public void testIsValidWithMixedCasePassword() {
+        cr.setHasMixedCase(true);
+        cr.isValid("Aaaa");
+    }
+
+    @Test(expected = PostconditionError.class)
+    public void testIsValidWithInvalidOnlyNumberPassword() {
+        cr.isValid("1234");
+    }
+
+    @Test
+    public void testIsValidWithOnlyNumberPassword() {
+        cr.setHasNumbers(true); // this must come first or we'll get invariant ex.
+        cr.setHasLetters(false);
+        cr.isValid("1234");
+    }
+
     @Test
     public void hasMixedCase_hasLetters() {
+        cr.setHasMixedCase(true);
+    }
+
+    @Test(expected = InvariantError.class)
+    public void hasLettersFalse_hasMixedCase() {
+        cr.setHasLetters(false);
         cr.setHasMixedCase(true);
     }
 
@@ -60,6 +96,11 @@ public class ProgramTest {
     @Test
     public void hasNumbers_hasNoLetters() {
         cr.setHasNumbers(true);
+        cr.setHasLetters(false);
+    }
+
+    @Test(expected = InvariantError.class)
+    public void testHasNoLetters() {
         cr.setHasLetters(false);
     }
 
