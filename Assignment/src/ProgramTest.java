@@ -138,6 +138,7 @@ public class ProgramTest {
     public void testIsValidWithMixedCasePassword() {
         cr.setHasMixedCase(true);
         cr.isValid("Aaaa");
+        //
     }
 
     @Test(expected = PostconditionError.class)
