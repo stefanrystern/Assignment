@@ -38,7 +38,7 @@ public class PasswordCriteria {
 		"pw != null"
 	})
 	@Ensures({
-		"isValid(old(pw)) == isPasswordValid(old(pw))"
+		"result == isPasswordValid(old(pw))"
 	})
 	public boolean isValid(String pw) {
 

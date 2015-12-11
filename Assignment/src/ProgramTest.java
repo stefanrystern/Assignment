@@ -27,13 +27,55 @@ public class ProgramTest {
         cr.setMaxLength(2);
     }
 
-	@Ignore
-	@Test(expected = PostconditionError.class)
-	public void testGetMinLength_postconditionError() {
-		cr.getMinLength();
-	}
 
-	@Ignore
+    @Ignore
+    @Test(expected = PostconditionError.class)
+    public void testGetMinLength_postconditionError() {
+
+        //        public Integer getMinLength() {
+        //            return 3;
+        //        }
+
+        cr.getMinLength();
+    }
+
+    @Ignore
+    @Test(expected = InvariantError.class)
+    public void testSetMaxLength_invariantError() {
+
+//        public void setMaxLength(int max) {
+//            maxLength = max;
+//            minLength = Integer.MAX_VALUE;
+//        }
+
+        cr.setMaxLength(10);
+    }
+
+    @Ignore
+    @Test(expected = InvariantError.class)
+    public void testSetMinLength_invariantError() {
+
+//        public void setMinLength(int min) {
+//            minLength = min;
+//            maxLength = 0;
+//        }
+
+        cr.setMinLength(4);
+    }
+
+    @Ignore
+    @Test(expected = InvariantError.class)
+    public void testSetMaxLength_invariantErrorLowerThanMIN() {
+
+//        public void setMaxLength(int max) {
+//            maxLength = max;
+//            minLength = 3;
+//        }
+
+        cr.setMaxLength(7);
+    }
+
+    @Ignore
 	@Test(expected = PostconditionError.class)
 	public void testGetMaxLength_postconditionError() {
 		cr.getMaxLength();
@@ -50,6 +92,7 @@ public class ProgramTest {
         cr.setMaxLength(4);
         cr.setMinLength(5);
     }
+
 
     @Test(expected = PreconditionError.class)
     public void testSetMaxLengthAllowed() throws Exception {
@@ -114,11 +157,6 @@ public class ProgramTest {
         cr.setHasMixedCase(true);
     }
 
-    @Test(expected = InvariantError.class)
-    public void hasLettersFalse_hasMixedCase() {
-        cr.setHasLetters(false);
-        cr.setHasMixedCase(true);
-    }
 
     @Test
     public void hasNumbers_hasLetters() {
