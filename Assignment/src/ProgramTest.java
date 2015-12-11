@@ -129,6 +129,9 @@ public class ProgramTest {
         cr.isValid(null);
     }
 
+    /**
+     * Fails since isValid method seems to return opposite that of isPasswordValid
+     */
     @Test(expected = PostconditionError.class)
     public void testIsValidWithInvalidMixedCasePassword() {
         cr.isValid("Aaaa");
@@ -145,6 +148,9 @@ public class ProgramTest {
         cr.isValid("1234");
     }
 
+    /**
+     * Fails since isValid method seems to return opposite that of isPasswordValid
+     */
     @Test
     public void testIsValidWithOnlyNumberPassword() {
         cr.setHasNumbers(true); // this must come first or we'll get invariant ex.
