@@ -129,6 +129,11 @@ public class ProgramTest {
         cr.isValid(null);
     }
 
+    @Test(expected = PreconditionError.class)
+    public void testIsValidWithEmptyPassword() {
+        cr.isValid("");
+    }
+
     /**
      * Fails since isValid method seems to return opposite that of isPasswordValid
      */

@@ -7,10 +7,10 @@ import com.google.java.contract.Invariant;
 import com.google.java.contract.Requires;
 
 @Invariant({
-	"minLength >= MIN",
-	"minLength <= maxLength",
-	"!hasMixedCase || hasLetters",
-	"hasNumbers || hasLetters"
+        "minLength >= MIN",
+        "minLength <= maxLength",
+        "!hasMixedCase || hasLetters",
+        "hasNumbers || hasLetters"
 })
 
 /*
@@ -22,219 +22,220 @@ import com.google.java.contract.Requires;
  */
 public class PasswordCriteria {
 
-	/*
-	 * The constructor of the class initializes the value of the attributes.
-	 */
-	PasswordCriteria() {
-		minLength = maxLength = MIN;
-		hasLetters = true;
-	}
+    /*
+     * The constructor of the class initializes the value of the attributes.
+     */
+    PasswordCriteria() {
+        minLength = maxLength = MIN;
+        hasLetters = true;
+    }
 
-	/*
-	 * The method returns true if the password is compliant with the citeria,
-	 * otherwise false.
-	 */
-	@Requires({
-		"pw != null"
-	})
-	@Ensures({
-		"result == isPasswordValid(old(pw))"
-	})
-	public boolean isValid(String pw) {
+    /*
+     * The method returns true if the password is compliant with the citeria,
+     * otherwise false.
+     */
+    @Requires({
+            "pw != null",
+            "!\"\".equals(pw)"
+    })
+    @Ensures({
+            "result == isPasswordValid(old(pw))"
+    })
+    public boolean isValid(String pw) {
 
-		boolean res = true;
+        boolean res = true;
 
-		if(pw.length() < minLength || pw.length() > maxLength) {
-			return false;
-		}
+        if (pw.length() < minLength || pw.length() > maxLength) {
+            return false;
+        }
 
-		ArrayList<Character> ar = new ArrayList<Character>();
-		for(char c : pw.toCharArray()) {
-			ar.add(c);
-		}
+        ArrayList<Character> ar = new ArrayList<Character>();
+        for (char c : pw.toCharArray()) {
+            ar.add(c);
+        }
 
-		Iterator<Character> it = ar.iterator();
-		while (it.hasNext()) {
-			Character ch = it.next();
-			it.remove();
+        Iterator<Character> it = ar.iterator();
+        while (it.hasNext()) {
+            Character ch = it.next();
+            it.remove();
 
-			if(!isDigit(ch) && !isLetterLower(ch) && !isLetterUpper(ch)) {
-				res = false;
-				break;
-			}
+            if (!isDigit(ch) && !isLetterLower(ch) && !isLetterUpper(ch)) {
+                res = false;
+                break;
+            }
 
-			if(((isDigit(ch) && !numbers())
-					|| (isLetterLower(ch) && !letters())
-					|| (isLetterUpper(ch) && !mixedCase()))
-					|| (ar.contains(ch) && allDifferent())) {
+            if (((isDigit(ch) && !numbers())
+                    || (isLetterLower(ch) && !letters())
+                    || (isLetterUpper(ch) && !mixedCase()))
+                    || (ar.contains(ch) && allDifferent())) {
 
-				res = false;
-				break;
-			}
-		}
+                res = false;
+                break;
+            }
+        }
 
-		return res;
+        return res;
 
-	}
-
-
-	/*
-	 * Setter for min length
-	 */
-	@Requires({
-			"min >= MIN",
-			"min <= maxLength"
-	})
-	@Ensures({
-			"minLength == old(min)"
-	})
-	public void setMinLength(int min) {
-		minLength = min;
-		// minLength = 5; testSetMinLength_postconditionError()
-	}
+    }
 
 
-	/*
-	 * Getter for min length
-	 */
-	@Ensures({
-			"result == minLength"
-	})
-	public Integer getMinLength() {
-		return minLength;
-		// return 3; testGetMinLength_postconditionError()
-	}
-
-	/*
-	 * Setter for max length
-	 */
-	@Requires({
-			"max >= MIN",
-			"max >= minLength"
-	})
-	@Ensures({
-			"maxLength == old(max)"
-	})
-	public void setMaxLength(int max) {
-		maxLength = max;
-	}
-
-	/*
-	 * Getter for max length
-	 */
-	@Ensures({
-			"result == maxLength"
-	})
-	public Integer getMaxLength() {
-		return maxLength;
-		// return 3; testGetMaxLength_postconditionError()
-	}
+    /*
+     * Setter for min length
+     */
+    @Requires({
+            "min >= MIN",
+            "min <= maxLength"
+    })
+    @Ensures({
+            "minLength == old(min)"
+    })
+    public void setMinLength(int min) {
+        minLength = min;
+        // minLength = 5; testSetMinLength_postconditionError()
+    }
 
 
-	/*
-	 * Setter for hasLetters attribute
-	 */
-	@Ensures({
+    /*
+     * Getter for min length
+     */
+    @Ensures({
+            "result == minLength"
+    })
+    public Integer getMinLength() {
+        return minLength;
+        // return 3; testGetMinLength_postconditionError()
+    }
+
+    /*
+     * Setter for max length
+     */
+    @Requires({
+            "max >= MIN",
+            "max >= minLength"
+    })
+    @Ensures({
+            "maxLength == old(max)"
+    })
+    public void setMaxLength(int max) {
+        maxLength = max;
+    }
+
+    /*
+     * Getter for max length
+     */
+    @Ensures({
+            "result == maxLength"
+    })
+    public Integer getMaxLength() {
+        return maxLength;
+        // return 3; testGetMaxLength_postconditionError()
+    }
+
+
+    /*
+     * Setter for hasLetters attribute
+     */
+    @Ensures({
             "hasLetters == old(val)"
     })
-	public void setHasLetters(boolean val) {
-		hasLetters = val;
-		// hasLetters = false; setHasLetters_postconditionError()
-	}
+    public void setHasLetters(boolean val) {
+        hasLetters = val;
+        // hasLetters = false; setHasLetters_postconditionError()
+    }
 
-	/*
-	 * Getter for hasLetters attribute
-	 */
-	@Ensures({
-			"result == letters()"
-	})
-	public boolean getHasLetters() {
-		return letters();
-		// return false; testGetHasLetters_postconditionError()
-	}
+    /*
+     * Getter for hasLetters attribute
+     */
+    @Ensures({
+            "result == letters()"
+    })
+    public boolean getHasLetters() {
+        return letters();
+        // return false; testGetHasLetters_postconditionError()
+    }
 
-	/*
-	 * Setter for hasMixedCase attribute
-	 */
+    /*
+     * Setter for hasMixedCase attribute
+     */
     @Ensures({
             "hasMixedCase == old(val)"
     })
     public void setHasMixedCase(boolean val) {
-		hasMixedCase = val;
-	}
+        hasMixedCase = val;
+    }
 
-	/*
-	 * Getter for hasMixedCase attribute
-	 */
+    /*
+     * Getter for hasMixedCase attribute
+     */
     @Ensures({
             "result == mixedCase()"
     })
     public boolean getHasMixedCase() {
-		return numbers();
-	}
+        return numbers();
+    }
 
 
-	/*
-	 * Setter for hasNumbers attribute
-	 */
+    /*
+     * Setter for hasNumbers attribute
+     */
     @Ensures({
             "hasNumbers == old(val)"
     })
     public void setHasNumbers(boolean val) {
-		hasNumbers = val;
-	}
+        hasNumbers = val;
+    }
 
-	/*
-	 * Getter for hasNumbers attribute
-	 */
+    /*
+     * Getter for hasNumbers attribute
+     */
     @Ensures({
             "result == numbers()"
     })
     public boolean getHasNumbers() {
-		return mixedCase();
-	}
+        return mixedCase();
+    }
 
-	/*
-	 * Setter for hasAllDifferent attribute
-	 */
+    /*
+     * Setter for hasAllDifferent attribute
+     */
     @Ensures({
             "hasAllDifferent == old(val)"
     })
     public void setHasAllDifferent(boolean val) {
-		hasAllDifferent = val;
-	}
+        hasAllDifferent = val;
+    }
 
-	/*
-	 * Getter for hasAllDifferent attribute
-	 */
+    /*
+     * Getter for hasAllDifferent attribute
+     */
     @Ensures({
             "result == allDifferent()"
     })
     public boolean getHasAllDifferent() {
-		return allDifferent();
-	}
+        return allDifferent();
+    }
 
-	///////////////////////////////////////////////////////////////////////////////////////////////
-	/*
-	 * The following 3 private methods are used by the isValid(String pw)
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+    /*
+     * The following 3 private methods are used by the isValid(String pw)
 	 * method to check the validity of the password. These methods need not
 	 * be addressed for the task.
 	 * 
 	 */
-	private boolean isLetterLower(char ch) {
-		int ac = (int)ch;
-		return (ac >= 97 && ac <= 122);
-	}
+    private boolean isLetterLower(char ch) {
+        int ac = (int) ch;
+        return (ac >= 97 && ac <= 122);
+    }
 
-	private boolean isLetterUpper(char ch) {
-		int ac = (int)ch;
-		return (ac >= 65 && ac <= 90);
-	}
+    private boolean isLetterUpper(char ch) {
+        int ac = (int) ch;
+        return (ac >= 65 && ac <= 90);
+    }
 
-	private boolean isDigit(char ch) {
-		int ac = (int)ch;
-		return (ac >= 48 && ac <= 57);
-	}
+    private boolean isDigit(char ch) {
+        int ac = (int) ch;
+        return (ac >= 48 && ac <= 57);
+    }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 /*
@@ -245,68 +246,68 @@ public class PasswordCriteria {
  */
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-	private boolean letters() {
-		return hasLetters;
-	}
+    private boolean letters() {
+        return hasLetters;
+    }
 
-	private boolean mixedCase() {
-		return hasMixedCase;
-	}
+    private boolean mixedCase() {
+        return hasMixedCase;
+    }
 
-	private boolean numbers() {
-		return hasNumbers;
-	}
+    private boolean numbers() {
+        return hasNumbers;
+    }
 
-	private boolean allDifferent() {
-		return hasAllDifferent;
-	}
+    private boolean allDifferent() {
+        return hasAllDifferent;
+    }
 
-	/*
-	 * The method uses alternate means to check the validity
-	 * of the password. This may be used in the contracts for
-	 * isValid(String pw) method.
-	 * 
-	 */
-	private boolean isPasswordValid(String pw) {
+    /*
+     * The method uses alternate means to check the validity
+     * of the password. This may be used in the contracts for
+     * isValid(String pw) method.
+     *
+     */
+    private boolean isPasswordValid(String pw) {
 
-		String range = "{" + minLength + "," + maxLength + "}";
-		String reg = "^[a-zA-Z0-9]" + range + "$";
-		String regl = "^.*[a-z].*$";
-		String regmc = "^.*[A-Z].*$";
-		String regn = "^.*[0-9].*$";
-		String regad = "(.).*?(?=.*?\\1)";
-
-
-		if(!Pattern.matches(reg, pw)) {
-			return false;
-		}
-
-		if(letters() != Pattern.matches(regl, pw)) {
-			return false;
-		}
-
-		if(mixedCase() != Pattern.matches(regmc, pw)) {
-			return false;
-		}
-
-		if(numbers() != Pattern.matches(regn, pw)) {
-			return false;
-		}
-
-		if(allDifferent() && Pattern.compile(regad).matcher(pw).find()) {
-			return false;
-		}
-
-		return true;
-	}
+        String range = "{" + minLength + "," + maxLength + "}";
+        String reg = "^[a-zA-Z0-9]" + range + "$";
+        String regl = "^.*[a-z].*$";
+        String regmc = "^.*[A-Z].*$";
+        String regn = "^.*[0-9].*$";
+        String regad = "(.).*?(?=.*?\\1)";
 
 
-	private int minLength;
-	private int maxLength;
+        if (!Pattern.matches(reg, pw)) {
+            return false;
+        }
 
-	private boolean hasLetters;
-	private boolean hasNumbers;
-	private boolean hasMixedCase;
-	private boolean hasAllDifferent;
-	private static final int MIN = 4;
+        if (letters() != Pattern.matches(regl, pw)) {
+            return false;
+        }
+
+        if (mixedCase() != Pattern.matches(regmc, pw)) {
+            return false;
+        }
+
+        if (numbers() != Pattern.matches(regn, pw)) {
+            return false;
+        }
+
+        if (allDifferent() && Pattern.compile(regad).matcher(pw).find()) {
+            return false;
+        }
+
+        return true;
+    }
+
+
+    private int minLength;
+    private int maxLength;
+
+    private boolean hasLetters;
+    private boolean hasNumbers;
+    private boolean hasMixedCase;
+    private boolean hasAllDifferent;
+    private static final int MIN = 4;
 }
